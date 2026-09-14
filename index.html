@@ -3,49 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>01 — Vertex & Fragment Shaders</title>
+    <link rel="stylesheet" href="./shared/css/lesson-layout.css">
 </head>
-<style>
-    body {
-        background-color: black;
-        margin: 0;
-    }
-    canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-    }
-    #gpu-debug-overlay {
-        position: fixed;
-        top: 12px;
-        left: 12px;
-        padding: 10px 14px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 12px;
-        line-height: 1.5;
-        color: #e8e8e8;
-        background: rgba(0, 0, 0, 0.75);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 6px;
-        pointer-events: none;
-        z-index: 1000;
-        min-width: 220px;
-    }
-    #gpu-debug-overlay .status {
-        color: #4ade80;
-        font-weight: 600;
-        margin-bottom: 6px;
-    }
-    #gpu-debug-overlay .label {
-        color: #9ca3af;
-    }
-    #gpu-debug-overlay .value {
-        color: #f3f4f6;
-    }
-</style>
 <body>
-    <canvas id="canvas"></canvas>
-    <div id="gpu-debug-overlay" aria-live="polite"></div>
+    <header>
+        <h1>Lesson 01 — Vertex &amp; Fragment Shaders</h1>
+        <p>Two triangles form a rectangle. Vertex colors blend smoothly across each pixel.</p>
+    </header>
+
+    <div class="layout">
+        <section class="panel code-panel">
+            <div class="panel-label">Code</div>
+
+            <div class="code-block">
+                <h3>Vertex Shader</h3>
+                <pre><code id="vertex-code"></code></pre>
+            </div>
+
+            <div class="code-block">
+                <h3 class="fragment">Fragment Shader</h3>
+                <pre><code id="fragment-code"></code></pre>
+            </div>
+
+            <div class="code-block">
+                <h3 class="javascript">JavaScript (draw call)</h3>
+                <pre><code id="js-code"></code></pre>
+            </div>
+        </section>
+
+        <section class="panel output-panel">
+            <div class="panel-label">Output</div>
+
+            <div class="canvas-wrap">
+                <canvas id="canvas"></canvas>
+            </div>
+
+            <div id="gpu-debug-overlay" aria-live="polite"></div>
+
+            <p class="caption">
+                Interpolated vertex colors on a rectangle (2 triangles, 6 vertices)
+            </p>
+
+            <div class="pipeline">
+                <span>Positions + Colors</span>
+                <span class="arrow">→</span>
+                <span>Vertex Shader</span>
+                <span class="arrow">→</span>
+                <span>Rasterize</span>
+                <span class="arrow">→</span>
+                <span>Fragment Shader</span>
+                <span class="arrow">→</span>
+                <span>Canvas</span>
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="./01/main.js"></script>
 </body>
-<script type="module" src="./01/script.js"></script>
 </html>
