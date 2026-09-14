@@ -24,6 +24,12 @@ canvas.height = pixelRatio * canvas.clientHeight;
 
 
 const gl = canvas.getContext("webgl");
+if (!gl) {
+    document.getElementById("gpu-debug-overlay").innerHTML =
+        '<div class="status" style="color:#f87171">WebGL unavailable</div>' +
+        '<div><span class="label">Fallback: </span><span class="value">CPU (no GPU acceleration)</span></div>';
+    throw new Error("WebGL not supported");
+}
 gl.viewport(0, 0, canvas.width, canvas.height);
 
 gl.clearColor(1, 1, 1, 0);
@@ -83,14 +89,7 @@ if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
 
 var m = gl.getUniformLocation(program, 'trans');
 
-var matrix = [
-    1, 0, 0, 0,
-    0, 1, 0, 0,
-    0, 0, 1, 0,
-    0, 0, 0, 1];
-
 gl.useProgram(program);
-gl.uniformMatrix4fv(m, false, matrix);
 
 
 var p = gl.getAttribLocation(program, 'position');
@@ -103,6 +102,64 @@ gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 gl.vertexAttribPointer(c, 4, gl.FLOAT, false, 0, 0);
 gl.enableVertexAttribArray(c);
 
-gl.clear(gl.COLOR_BUFFER_BIT);
-gl.useProgram(program);
-gl.drawArrays(gl.TRIANGLES, 0, 6);
+function getGpuInfo(gl) {
+    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+    if (debugInfo) {
+        return {
+            vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+            renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL),
+        };
+    }
+    return {
+        vendor: gl.getParameter(gl.VENDOR),
+        renderer: gl.getParameter(gl.RENDERER),
+    };
+}
+
+const gpuInfo = getGpuInfo(gl);
+const overlay = document.getElementById("gpu-debug-overlay");
+let frameCount = 0;
+let lastFpsUpdate = performance.now();
+let fps = 0;
+
+function updateOverlay(frameTimeMs) {
+    overlay.innerHTML =
+        '<div class="status">● Rendering via WebGL (GPU)</div>' +
+        '<div><span class="label">Vendor: </span><span class="value">' + gpuInfo.vendor + '</span></div>' +
+        '<div><span class="label">Renderer: </span><span class="value">' + gpuInfo.renderer + '</span></div>' +
+        '<div><span class="label">FPS: </span><span class="value">' + fps + '</span></div>' +
+        '<div><span class="label">Frame: </span><span class="value">' + frameTimeMs.toFixed(2) + ' ms</span></div>';
+}
+
+function render(time) {
+    const frameStart = performance.now();
+
+    const angle = time * 0.001;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const matrix = [
+        cos, -sin, 0, 0,
+        sin, cos, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1,
+    ];
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(program);
+    gl.uniformMatrix4fv(m, false, matrix);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+    const frameTimeMs = performance.now() - frameStart;
+    frameCount++;
+    const now = performance.now();
+    if (now - lastFpsUpdate >= 500) {
+        fps = Math.round((frameCount * 1000) / (now - lastFpsUpdate));
+        frameCount = 0;
+        lastFpsUpdate = now;
+    }
+    updateOverlay(frameTimeMs);
+
+    requestAnimationFrame(render);
+}
+
+requestAnimationFrame(render);
