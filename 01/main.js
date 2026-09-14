@@ -1,4 +1,5 @@
 import { renderCodePanels } from "../shared/js/lesson-page.js";
+import { createGpuDebugOverlay } from "../shared/js/gpu-debug-overlay.js";
 import {
     createBuffer,
     createProgram,
@@ -27,7 +28,16 @@ renderCodePanels({
 });
 
 const canvas = document.getElementById("canvas");
-const gl = createWebGLContext(canvas);
+
+let gl;
+try {
+    gl = createWebGLContext(canvas);
+} catch {
+    createGpuDebugOverlay({ unavailable: true });
+    throw new Error("WebGL not supported");
+}
+
+const gpuOverlay = createGpuDebugOverlay({ gl });
 
 const program = createProgram(gl, vertexShader, fragmentShader);
 const transLoc = gl.getUniformLocation(program, "trans");
@@ -56,5 +66,5 @@ function draw() {
     gl.drawArrays(gl.TRIANGLES, 0, vertexCount);
 }
 
-draw();
+gpuOverlay.start(draw);
 window.addEventListener("resize", draw);
