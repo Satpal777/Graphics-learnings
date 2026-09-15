@@ -8,21 +8,15 @@ import {
     identityMatrix,
     resizeCanvas
 } from "../shared/js/webgl.js";
-import { colors, positions, vertexCount } from "./geometry.js";
+import { colors, drawCalls, positions } from "./geometry.js";
 import { fragmentShader, vertexShader } from "./shaders.js";
 
-const javascriptSnippet = `// Geometry: 2 triangles → 1 rectangle
-const positions = [-0.8, 0.4, 0,  0.8, 0.4, 0,  ...];
-const colors    = [1,0,0,1,  0,1,0,1,  0,0,1,1,  ...];
+const javascriptSnippet = `// GPU primitives: line, triangle, curve (as line segments)
+gl.drawArrays(gl.LINES, 0, 2);
+gl.drawArrays(gl.TRIANGLES, 2, 3);
+gl.drawArrays(gl.LINE_STRIP, 5, 65);`;
 
-// Upload buffers, compile shaders, link program
-gl.useProgram(program);
-gl.uniformMatrix4fv(transLoc, false, identityMatrix);
-
-// Bind position & color attributes, then draw
-gl.drawArrays(gl.TRIANGLES, 0, 6);`;
-
-initLessonNav("01");
+initLessonNav("02");
 
 renderCodePanels({
     vertex: vertexShader,
@@ -55,6 +49,7 @@ function draw() {
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(1, 1, 1, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.lineWidth(1.0);
     gl.useProgram(program);
     gl.uniformMatrix4fv(transLoc, false, identityMatrix);
 
@@ -66,7 +61,9 @@ function draw() {
     gl.vertexAttribPointer(colorLoc, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(colorLoc);
 
-    gl.drawArrays(gl.TRIANGLES, 0, vertexCount);
+    for (const { mode, offset, count } of drawCalls) {
+        gl.drawArrays(gl[mode], offset, count);
+    }
 }
 
 gpuOverlay.start(draw);

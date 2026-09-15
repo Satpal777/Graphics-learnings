@@ -45,6 +45,184 @@ header p {
     margin-top: 0.25rem;
 }
 
+.lesson-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.lesson-nav-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.lesson-nav-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.lesson-nav-link:hover {
+    text-decoration: underline;
+}
+
+.lesson-nav-home {
+    align-self: flex-start;
+}
+
+.lesson-nav-current {
+    color: var(--muted);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.lesson-nav-spacer {
+    flex: 1;
+    max-width: 120px;
+}
+
+.home-main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+}
+
+.home-intro {
+    margin-bottom: 1.75rem;
+}
+
+.home-intro h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.home-intro p {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.home-hint {
+    margin-top: 1.5rem;
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.lesson-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.lesson-step {
+    display: flex;
+    gap: 1rem;
+}
+
+.lesson-step-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 2.5rem;
+}
+
+.lesson-step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.lesson-step-line {
+    flex: 1;
+    width: 2px;
+    min-height: 1.5rem;
+    margin: 0.35rem 0;
+    background: var(--border);
+}
+
+.lesson-step-card {
+    flex: 1;
+    margin-bottom: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+}
+
+.lesson-step-card:hover {
+    border-color: var(--accent);
+}
+
+.lesson-step-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: #1c2128;
+}
+
+.lesson-step-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+}
+
+.lesson-step-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.lesson-step-link:hover {
+    text-decoration: underline;
+}
+
+.lesson-step-body {
+    display: block;
+    padding: 1rem 1.25rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.lesson-step-body:hover h3 {
+    color: var(--accent);
+}
+
+.lesson-step-body h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    transition: color 0.15s;
+}
+
+.lesson-step-body p {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
 .layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -117,6 +295,29 @@ header p {
 
 .code-block h3.javascript {
     color: var(--orange);
+}
+
+.idea-block h3 {
+    color: var(--green);
+}
+
+.idea-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.45;
+}
+
+.idea-list strong {
+    color: var(--text);
+    font-weight: 600;
 }
 
 pre {

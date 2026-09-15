@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 — Fewer Vertices</title>
+    <link rel="stylesheet" href="../shared/css/lesson-layout.css">
+</head>
+<body>
+    <header>
+        <nav id="lesson-nav" class="lesson-nav" aria-label="Lesson navigation"></nav>
+        <h1>Lesson 03 — Fewer Vertices</h1>
+        <p>
+            Same two triangles. Send fewer vertices by sharing corners: list all verts,
+            use an index list, or use a triangle strip.
+        </p>
+    </header>
+
+    <div class="layout">
+        <section class="panel code-panel">
+            <div class="panel-label">Code</div>
+
+            <div class="code-block">
+                <h3>Vertex Shader</h3>
+                <pre><code id="vertex-code"></code></pre>
+            </div>
+
+            <div class="code-block">
+                <h3 class="fragment">Fragment Shader</h3>
+                <pre><code id="fragment-code"></code></pre>
+            </div>
+
+            <div class="code-block">
+                <h3 class="javascript">JavaScript (draw call)</h3>
+                <pre><code id="js-code"></code></pre>
+            </div>
+
+            <div class="code-block idea-block">
+                <h3>Idea</h3>
+                <ul class="idea-list">
+                    <li><strong>All verts</strong> — easy, but shared corners are copied (6 for a quad).</li>
+                    <li><strong>Indices</strong> — store each corner once (4), index list picks triangles.</li>
+                    <li><strong>Strip</strong> — order verts so each new one adds one triangle (4).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="panel output-panel">
+            <div class="panel-label">Output</div>
+
+            <div class="canvas-wrap">
+                <canvas id="canvas"></canvas>
+            </div>
+
+            <div id="gpu-debug-overlay" aria-live="polite"></div>
+
+            <p class="caption">
+                Left: all verts (6) · Middle: indexed (4 + 6) · Right: strip (4)
+            </p>
+
+            <div class="pipeline">
+                <span>Share corners</span>
+                <span class="arrow">→</span>
+                <span>Fewer verts</span>
+                <span class="arrow">→</span>
+                <span>Less GPU work</span>
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

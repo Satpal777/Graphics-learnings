@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 — Vertex & Fragment Shaders</title>
+    <link rel="stylesheet" href="../shared/css/lesson-layout.css">
+</head>
+<body>
+    <header>
+        <nav id="lesson-nav" class="lesson-nav" aria-label="Lesson navigation"></nav>
+        <h1>Lesson 01 — Vertex &amp; Fragment Shaders</h1>
+        <p>Two triangles form a rectangle. Vertex colors blend smoothly across each pixel.</p>
+    </header>
+
+    <div class="layout">
+        <section class="panel code-panel">
+            <div class="panel-label">Code</div>
+
+            <div class="code-block">
+                <h3>Vertex Shader</h3>
+                <pre><code id="vertex-code"></code></pre>
+            </div>
+
+            <div class="code-block">
+                <h3 class="fragment">Fragment Shader</h3>
+                <pre><code id="fragment-code"></code></pre>
+            </div>
+
+            <div class="code-block">
+                <h3 class="javascript">JavaScript (draw call)</h3>
+                <pre><code id="js-code"></code></pre>
+            </div>
+        </section>
+
+        <section class="panel output-panel">
+            <div class="panel-label">Output</div>
+
+            <div class="canvas-wrap">
+                <canvas id="canvas"></canvas>
+            </div>
+
+            <div id="gpu-debug-overlay" aria-live="polite"></div>
+
+            <p class="caption">
+                Interpolated vertex colors on a rectangle (2 triangles, 6 vertices)
+            </p>
+
+            <div class="pipeline">
+                <span>Positions + Colors</span>
+                <span class="arrow">→</span>
+                <span>Vertex Shader</span>
+                <span class="arrow">→</span>
+                <span>Rasterize</span>
+                <span class="arrow">→</span>
+                <span>Fragment Shader</span>
+                <span class="arrow">→</span>
+                <span>Canvas</span>
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
